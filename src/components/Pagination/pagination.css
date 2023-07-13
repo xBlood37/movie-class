@@ -1,0 +1,9 @@
+.pagination-main {
+  display: flex;
+  justify-content: center;
+  padding: 22px;
+}
+
+:where(.css-dev-only-do-not-override-12upa3x).ant-pagination {
+  display: inline-block;
+}

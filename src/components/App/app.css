@@ -1,0 +1,32 @@
+.app {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.ant-spin {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+:where(.css-dev-only-do-not-override-k7429z).ant-spin .ant-spin-dot {
+  top: 25px;
+}
+
+.spin-block {
+  margin-top: 25%;
+  margin-bottom: 25%;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+}
+
+.error-message {
+  border: 1px solid gray;
+  border-radius: 20px;
+  padding: 18px;
+  color: gray;
+}
