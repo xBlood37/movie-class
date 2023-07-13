@@ -1,17 +1,21 @@
-const baseUrl = `https://api.themoviedb.org/3/`;
+const params = {
+  baseUrl: 'https://api.themoviedb.org/3/',
+  apiKey: '019f45ffad25df23ae4bc380bfe0d72f',
+  sessionId: '',
+};
+
 const options = {
   method: 'GET',
   headers: {
     accept: 'application/json',
     Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMTlmNDVmZmFkMjVkZjIzYWU0YmMzODBiZmUwZDcyZiIsInN1YiI6IjY0N2RlMzFlY2Y0YjhiMDEyMjc3MjEyOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.IW7VeL8I9KTtx9259oVN1Vub-visR3waR1RVkdwjPHc',
+      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0NmFkZDM4ZmI5NmJkMTNhZGE1NzNkMWNjY2RlM2VkZiIsInN1YiI6IjY0NTg0MmY0NmFhOGUwMDBlNGJjMzhlNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UjWs2wDA2vr7DEbed8goAYA7IIFjgtgaFz4iqKEvmBc',
   },
 };
 
 export const getFilm = async (current = 1) => {
   const res = await fetch(
-    `${baseUrl}discover/movie?api_key=019f45ffad25df23ae4bc380bfe0d72f&include_adult=false&include_video=false&language=ru-US&page=${current}&sort_by=popularity.desc`,
-    options,
+    `${params.baseUrl}discover/movie?api_key=${params.apiKey}&language=en-US&query=Good&page=${current}&include_adult=false`,
   );
   const data = await res.json();
   return data;
@@ -19,7 +23,7 @@ export const getFilm = async (current = 1) => {
 
 export const searchFilm = async (label) => {
   const res = await fetch(
-    `${baseUrl}search/movie?query=${label}&include_adult=false&language=ru-US&region=ru`,
+    `${params.baseUrl}search/movie?query=${label}&include_adult=false&language=ru-US&region=ru`,
     options,
   );
   const data = await res.json();
@@ -28,20 +32,15 @@ export const searchFilm = async (label) => {
 
 const guestSession = async () => {
   const res = await fetch(
-    `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=019f45ffad25df23ae4bc380bfe0d72f`,
+    `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${params.apiKey}`,
     options,
   );
   const data = await res.json();
-  // console.log(data.guest_session_id);
-  localStorage.setItem('guest_session_id', data.guest_session_id);
-  // return data.guest_session_id;
+  params.sessionId = data.guest_session_id;
+  console.log(params.sessionId, 'params.sessionId IN guestSession');
 };
 
 await guestSession();
-
-// const sessionId = guestSession();
-const sessionId = localStorage.getItem('guest_session_id');
-console.log(sessionId);
 
 export const addRating = async (id, rate) => {
   const options = {
@@ -49,29 +48,24 @@ export const addRating = async (id, rate) => {
     headers: {
       accept: 'application/json',
       'Content-Type': 'application/json;charset=utf-8',
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMTlmNDVmZmFkMjVkZjIzYWU0YmMzODBiZmUwZDcyZiIsInN1YiI6IjY0N2RlMzFlY2Y0YjhiMDEyMjc3MjEyOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.IW7VeL8I9KTtx9259oVN1Vub-visR3waR1RVkdwjPHc',
     },
     body: JSON.stringify({ value: rate }),
   };
 
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/rating?api_key=019f45ffad25df23ae4bc380bfe0d72f&guest_session_id=${sessionId}`,
+    `https://api.themoviedb.org/3/movie/${id}/rating?api_key=${params.apiKey}&guest_session_id=${params.sessionId}`,
     options,
   );
-  const data = await res.json();
-  console.log(data);
-  // console.log(res.json());
+  console.log(params.sessionId, 'params.sessionId');
+  const inAddRating = await res.json();
+  console.log(inAddRating, 'inAddRating');
 };
 
 export const getRateFilm = async () => {
   const res = await fetch(
-    `https://api.themoviedb.org/3/guest_session/${sessionId}/rated/movies?api_key=019f45ffad25df23ae4bc380bfe0d72f&page=1`,
-    options,
+    `https://api.themoviedb.org/3/guest_session/${params.sessionId}/rated/movies?api_key=${params.apiKey}&page=1`,
   );
-  console.log(sessionId);
-  const data = await res.json();
-  console.log(data);
+  console.log(params.sessionId, 'params.sessionId In getRateFilm ');
+  const rated = await res.json();
+  console.log(rated);
 };
-
-// ?api_key=019f45ffad25df23ae4bc380bfe0d72f
