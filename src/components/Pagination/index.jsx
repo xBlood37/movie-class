@@ -5,13 +5,13 @@ import React from 'react';
 
 export default class PaginationBlock extends React.Component {
   render() {
-    const { totalPages, onPaginationChange } = this.props;
+    const { totalPages, onPaginationChange, rating } = this.props;
     return (
       <div className="pagination-main">
         <Pagination
           onChange={(current) => onPaginationChange(current)}
           defaultCurrent={1}
-          total={totalPages ? totalPages * 10 : 50}
+          total={!rating ? totalPages : null}
           showSizeChanger={false}
         />
       </div>

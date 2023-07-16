@@ -3,7 +3,7 @@ import './app.css';
 import { debounce } from 'lodash';
 import React from 'react';
 
-import { getFilm, searchFilm } from '../../services/film';
+import { getFilm, getRateFilm, searchFilm } from '../../services/film';
 import CardList from '../CardList';
 import Error from '../Error';
 import Navbar from '../Navbar';
@@ -15,6 +15,7 @@ class App extends React.Component {
     movie: [],
     errors: false,
     totalPages: 0,
+    rating: false,
   };
 
   onError = () => {
@@ -24,6 +25,7 @@ class App extends React.Component {
   };
 
   film = (fn, event) => {
+    this.setState({ rating: false });
     fn(event)
       .then((data) => {
         this.setState({
@@ -57,6 +59,16 @@ class App extends React.Component {
       .catch(() => this.onError());
   };
 
+  onRatedFilm = () => {
+    this.setState({
+      movie: [],
+      rating: true,
+    });
+    getRateFilm().then((data) => {
+      return this.setState({ movie: data });
+    });
+  };
+
   render() {
     const { errors, movie, totalPages } = this.state;
 
@@ -71,12 +83,18 @@ class App extends React.Component {
       <>
         <div className="app">
           <header className="header">
-            <Navbar onInputChange={debounce(this.onInputChange, 450)} />
+            <Navbar
+              onInputChange={debounce(this.onInputChange, 450)}
+              onRatedFilm={this.onRatedFilm}
+              onAllFilm={() => this.film(getFilm)}
+              rating={this.state.rating}
+            />
           </header>
           <main className="main">{movies}</main>
           <PaginationBlock
             onPaginationChange={this.onPaginationChange}
             totalPages={totalPages}
+            rating={this.state.rating}
           />
         </div>
       </>

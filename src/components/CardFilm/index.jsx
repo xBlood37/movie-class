@@ -19,7 +19,7 @@ class CardFilm extends React.Component {
   };
 
   render() {
-    const { title, poster, release, voteAverage, overview, id } = this.props;
+    const { title, poster, release, voteAverage, overview } = this.props;
     const releaseYear = release.split('-');
     const vote = voteAverage.toString().slice(0, -2);
 
@@ -43,12 +43,6 @@ class CardFilm extends React.Component {
         </div>
         <div className="film-overview">
           <p className="overview">{filmOverview}</p>
-        </div>
-        <div className="genres">
-          <ul className="genre_list">
-            <li className="genre">action</li>
-            <li className="genre">action</li>
-          </ul>
         </div>
         <div className="bottom">
           <Rate onChange={(count) => this.onAddRating(count)} />

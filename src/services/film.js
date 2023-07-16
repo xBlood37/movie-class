@@ -9,7 +9,7 @@ const options = {
   headers: {
     accept: 'application/json',
     Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0NmFkZDM4ZmI5NmJkMTNhZGE1NzNkMWNjY2RlM2VkZiIsInN1YiI6IjY0NTg0MmY0NmFhOGUwMDBlNGJjMzhlNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UjWs2wDA2vr7DEbed8goAYA7IIFjgtgaFz4iqKEvmBc',
+      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMTlmNDVmZmFkMjVkZjIzYWU0YmMzODBiZmUwZDcyZiIsInN1YiI6IjY0N2RlMzFlY2Y0YjhiMDEyMjc3MjEyOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.IW7VeL8I9KTtx9259oVN1Vub-visR3waR1RVkdwjPHc',
   },
 };
 
@@ -17,6 +17,9 @@ export const getFilm = async (current = 1) => {
   const res = await fetch(
     `${params.baseUrl}discover/movie?api_key=${params.apiKey}&language=en-US&query=Good&page=${current}&include_adult=false`,
   );
+
+  if (!res.ok) throw new Error('Could not fetch.');
+
   const data = await res.json();
   return data;
 };
@@ -26,6 +29,9 @@ export const searchFilm = async (label) => {
     `${params.baseUrl}search/movie?query=${label}&include_adult=false&language=ru-US&region=ru`,
     options,
   );
+
+  if (!res.ok) throw new Error('Could not fetch.');
+
   const data = await res.json();
   return data;
 };
@@ -35,6 +41,9 @@ const guestSession = async () => {
     `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${params.apiKey}`,
     options,
   );
+
+  if (!res.ok) throw new Error('Could not fetch.');
+
   const data = await res.json();
   params.sessionId = data.guest_session_id;
   console.log(params.sessionId, 'params.sessionId IN guestSession');
@@ -56,6 +65,9 @@ export const addRating = async (id, rate) => {
     `https://api.themoviedb.org/3/movie/${id}/rating?api_key=${params.apiKey}&guest_session_id=${params.sessionId}`,
     options,
   );
+
+  if (!res.ok) throw new Error('Could not fetch.');
+
   console.log(params.sessionId, 'params.sessionId');
   const inAddRating = await res.json();
   console.log(inAddRating, 'inAddRating');
@@ -63,9 +75,11 @@ export const addRating = async (id, rate) => {
 
 export const getRateFilm = async () => {
   const res = await fetch(
-    `https://api.themoviedb.org/3/guest_session/${params.sessionId}/rated/movies?api_key=${params.apiKey}&page=1`,
+    `https://api.themoviedb.org/3/guest_session/${params.sessionId}/rated/movies?api_key=${params.apiKey}`,
   );
-  console.log(params.sessionId, 'params.sessionId In getRateFilm ');
+
+  if (!res.ok) throw new Error('Could not fetch.');
+
   const rated = await res.json();
-  console.log(rated);
+  return rated.results;
 };
