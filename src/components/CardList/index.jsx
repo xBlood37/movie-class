@@ -3,14 +3,15 @@ import './cardList.css';
 import React from 'react';
 
 import CardFilm from '../CardFilm';
+import EmptyCardListError from '../EmptyCardListError';
 
 class CardList extends React.Component {
-  render() {
-    const { movie } = this.props;
+  movieLength(mov) {
+    if (!mov.length) return <EmptyCardListError />;
 
     return (
       <div className="cardlist">
-        {movie.map((obj) => {
+        {mov.map((obj) => {
           return (
             <CardFilm
               key={obj.id}
@@ -25,6 +26,12 @@ class CardList extends React.Component {
         })}
       </div>
     );
+  }
+
+  render() {
+    const { movie } = this.props;
+
+    return this.movieLength(movie);
   }
 }
 
