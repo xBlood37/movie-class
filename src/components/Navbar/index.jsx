@@ -9,7 +9,7 @@ class Navbar extends React.Component {
     const { onInputChange, onRatedFilm, onAllFilm, rating } = this.props;
 
     return (
-      <>
+      <div className="navbar-form-container">
         <div className="navbar">
           <ul className="tabs-list">
             <li className="tabs-item">
@@ -25,7 +25,7 @@ class Navbar extends React.Component {
           </ul>
         </div>
         <Form onInputChange={onInputChange} rating={rating} />
-      </>
+      </div>
     );
   }
 }
