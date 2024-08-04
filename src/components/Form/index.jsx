@@ -13,13 +13,16 @@ export default class Form extends Component {
     return (
       <div className="search">
         <form className="form">
-          <input
-            style={input}
-            className="form-search-input"
-            type="text"
-            placeholder="Type to search..."
-            onChange={onInputChange}
-          />
+          <div className="search-input">
+            <span className="material-symbols-outlined search-icon">search</span>
+            <input
+              style={input}
+              className="form-search-input"
+              type="text"
+              placeholder="Type to search..."
+              onChange={onInputChange}
+            />
+          </div>
         </form>
       </div>
     );

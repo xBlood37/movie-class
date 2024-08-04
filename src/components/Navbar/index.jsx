@@ -1,5 +1,7 @@
 import './navbar.css';
 
+import { SearchOutlined } from '@ant-design/icons';
+import { Button, Tooltip } from 'antd';
 import React from 'react';
 
 import Form from '../Form';
@@ -13,14 +15,17 @@ class Navbar extends React.Component {
         <div className="navbar">
           <ul className="tabs-list">
             <li className="tabs-item">
-              <button className="tabs" onClick={() => onAllFilm()}>
-                Поиск
-              </button>
+              <Tooltip title="Search">
+                <Button
+                  shape="circle"
+                  onClick={() => onAllFilm()}
+                  icon={<SearchOutlined />}
+                  type="primary"
+                ></Button>
+              </Tooltip>
             </li>
             <li className="tabs-item">
-              <button onClick={onRatedFilm} className="tabs">
-                Рейтинг
-              </button>
+              <Button onClick={onRatedFilm}>Рейтинг</Button>
             </li>
           </ul>
         </div>

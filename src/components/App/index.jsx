@@ -8,6 +8,7 @@ import CardList from '../CardList';
 import Error from '../Error';
 import Navbar from '../Navbar';
 import PaginationBlock from '../Pagination';
+import SliderFilm from '../SliderFilm';
 import SpinBlock from '../SpinBlock';
 
 class App extends React.Component {
@@ -90,6 +91,7 @@ class App extends React.Component {
               rating={this.state.rating}
             />
           </header>
+          <SliderFilm movie={movie} />
           <main className="main">{movies}</main>
           <PaginationBlock
             onPaginationChange={this.onPaginationChange}
